@@ -1,35 +1,39 @@
-const router = require('express').Router();
+
 const User = require('./user.model');
 const usersService = require('./user.service');
 
-router.route('/').get(async (req, res) => {
-  const users = await usersService.getAll();
-  res.status(200).json(users.map(User.toResponse));
-});
+const userRouter = (fastify, options, done) => {
+  fastify.get('/users', async (req, reply) => {
+    const users = await usersService.getAll();
+    reply.code(200).send(users.map(User.toResponse));
+  });
 
-router.route('/').post(async (req, res) => {
-  const { name, login, password } = req.body;
-  const user = new User({ name, login, password });
-  await usersService.createUser(user);
-  res.status(201).json(User.toResponse(user));
-});
+  fastify.post('/users', async (req, reply) => {
+    const { name, login, password } = req.body;
+    const user = new User({ name, login, password });
+    await usersService.createUser(user);
+    reply.code(201).send(User.toResponse(user));
+  });
 
-router.route('/:id').get(async (req, res) => {
-  const { id } = req.params;
-  const user = await usersService.getUserById(id);
-  res.status(200).send(User.toResponse(user));
-});
+  fastify.get('/users/:id', async (req, reply) => {
+    const { id } = req.params;
+    const user = await usersService.getUserById(id);
+    reply.code(200).send(User.toResponse(user));
+  });
 
-router.route('/:id').put(async (req, res) => {
-  const { id } = req.params;
-  const user = await usersService.updateUser(id, req.body);
-  res.status(200).send(User.toResponse(user));
-})
+  fastify.put('/users/:id', async (req, reply) => {
+    const { id } = req.params;
+    const user = await usersService.updateUser(id, req.body);
+    reply.code(200).send(User.toResponse(user));
+  });
 
-router.route('/:id').delete(async (req, res) => {
-  const { id } = req.params;
-  await usersService.deleteUser(id);
-  res.sendStatus(204);
-});
+  fastify.delete('/users/:id', async (req, reply) => {
+    const { id } = req.params;
+    await usersService.deleteUser(id);
+    reply.code(204);
+  });
 
-module.exports = router;
+  done();
+};
+
+module.exports = userRouter;
