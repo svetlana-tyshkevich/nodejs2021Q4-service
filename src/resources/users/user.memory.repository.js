@@ -5,7 +5,7 @@ const getAll = async () => userDB;
 const createUser = async (user) => {
   userDB.push(user);
   return user;
-}
+};
 
 const getUserById = async (id) => userDB.find((item) => item.id === id);
 
@@ -18,7 +18,7 @@ const updateUser = async (id, userInfo) => {
   userDB[currentIndex].password = password;
 
   return userDB[currentIndex];
-}
+};
 
 const deleteUser = async (id) => {
   const currentIndex = userDB.indexOf((item) => item.id === id);
