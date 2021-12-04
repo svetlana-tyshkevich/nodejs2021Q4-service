@@ -3,19 +3,19 @@ const Board = require('./board.model');
 const boardsService = require('./board.memory.repository');
 
 const boardRouter = (fastify, options, done) => {
-  fastify.get('/boards', async (req, reply) => {
+  fastify.get('/', async (req, reply) => {
     const boards = await boardsService.getAll();
     reply.code(200).send(boards);
   });
 
-  fastify.post('/boards', async (req, reply) => {
+  fastify.post('/', async (req, reply) => {
     const { title, columns } = req.body;
     const board = new Board({ title, columns });
     await boardsService.createBoard(board);
     reply.code(201).send(board);
   });
 
-  fastify.get('/boards/:id', async (req, reply) => {
+  fastify.get('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const board = await boardsService.getBoardById(id);
@@ -25,7 +25,7 @@ const boardRouter = (fastify, options, done) => {
     }
   });
 
-  fastify.put('/boards/:id', async (req, reply) => {
+  fastify.put('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const board = await boardsService.updateBoard(id, req.body);
@@ -35,7 +35,7 @@ const boardRouter = (fastify, options, done) => {
     }
   });
 
-  fastify.delete('/boards/:id', async (req, reply) => {
+  fastify.delete('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       await boardsService.deleteBoard(id);
