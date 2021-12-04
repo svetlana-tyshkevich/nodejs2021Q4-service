@@ -36,10 +36,7 @@ const deleteTask = async (boardId, taskId) => {
 };
 
 const deleteBoardTasks = async (boardId) => {
-  console.log(taskDB);
-
   taskDB = taskDB.filter((item) => item.boardId !== boardId);
-  console.log(taskDB);
 };
 
 const deleteUserTasks = async (userId) => {
