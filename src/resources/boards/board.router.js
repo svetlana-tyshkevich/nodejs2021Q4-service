@@ -1,6 +1,6 @@
 
 const Board = require('./board.model');
-const boardsService = require('./board.memory.repository');
+const boardsService = require('./board.service');
 
 const boardRouter = (fastify, options, done) => {
   fastify.get('/', async (req, reply) => {
