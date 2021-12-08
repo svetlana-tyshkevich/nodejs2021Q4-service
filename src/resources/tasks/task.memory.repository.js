@@ -1,4 +1,6 @@
-let taskDB = require('../../common/db.js').tasks;
+import db  from '../../common/db.js';
+
+let taskDB = db.tasks;
 
 const getAll = async (boardId) => {
   const tasks = taskDB.filter((task) => task.boardId === boardId);
@@ -36,7 +38,7 @@ const deleteTask = async (boardId, taskId) => {
 };
 
 const deleteBoardTasks = async (boardId) => {
-  taskDB = taskDB.filter((item) => item.boardId !== boardId);
+  taskDB =  taskDB.filter((item) => item.boardId !== boardId)
 };
 
 const deleteUserTasks = async (userId) => {
@@ -49,7 +51,7 @@ const deleteUserTasks = async (userId) => {
     });
 };
 
-module.exports = {
+export default {
   getAll,
   createTask,
   getTaskByID,

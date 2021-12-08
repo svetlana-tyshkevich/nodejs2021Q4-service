@@ -1,5 +1,5 @@
-const usersRepo = require('./user.memory.repository');
-const { deleteUserTasks } = require('../tasks/task.service.js');
+import usersRepo from './user.memory.repository.js';
+import  tasksRepo from '../tasks/task.service.js';
 
 const getAll = () => usersRepo.getAll();
 
@@ -10,8 +10,8 @@ const createUser = (user) => usersRepo.createUser(user);
 const updateUser = (id, userInfo) => usersRepo.updateUser(id, userInfo);
 
 const deleteUser = (id) => {
-  deleteUserTasks(id);
+  tasksRepo.deleteUserTasks(id);
   usersRepo.deleteUser(id);
 };
 
-module.exports = { getAll, getUserById, createUser, updateUser, deleteUser };
+export default { getAll, getUserById, createUser, updateUser, deleteUser };

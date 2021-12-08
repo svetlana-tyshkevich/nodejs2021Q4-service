@@ -1,6 +1,6 @@
 
-const Board = require('./board.model');
-const boardsService = require('./board.service');
+import Board from './board.model.js';
+import boardsService from './board.service.js';
 
 const boardRouter = (fastify, options, done) => {
   fastify.get('/', async (req, reply) => {
@@ -48,5 +48,5 @@ const boardRouter = (fastify, options, done) => {
   done();
 };
 
-module.exports = boardRouter;
+export default boardRouter;
 

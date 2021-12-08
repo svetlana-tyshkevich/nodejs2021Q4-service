@@ -1,5 +1,5 @@
-const boardsRepo = require('./board.memory.repository');
-const { deleteBoardTasks } = require('../tasks/task.service.js');
+import boardsRepo from './board.memory.repository.js';
+import tasksRepo from '../tasks/task.service.js';
 
 const getAll = () => boardsRepo.getAll();
 
@@ -10,12 +10,11 @@ const getBoardById = (id) => boardsRepo.getBoardById(id);
 const updateBoard = (id, board) => boardsRepo.updateBoard(id, board);
 
 const deleteBoard = (id) => {
-  deleteBoardTasks(id);
+  tasksRepo.deleteBoardTasks(id);
   boardsRepo.deleteBoard(id);
-} 
-;
+};
 
-module.exports = {
+export default {
   getAll,
   createBoard,
   getBoardById,

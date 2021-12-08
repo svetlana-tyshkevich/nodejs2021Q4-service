@@ -1,22 +1,28 @@
-const fastify = require('fastify')();
-const fastifySwagger = require('fastify-swagger');
-const path = require('path');
-const userRouter = require('./resources/users/user.router');
-const boardRouter = require('./resources/boards/board.router');
-const taskRouter = require('./resources/tasks/task.router');
+import fastify from 'fastify';
+import fastifySwagger from 'fastify-swagger';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import userRouter from './resources/users/user.router.js';
+import boardRouter from './resources/boards/board.router.js';
+import taskRouter from './resources/tasks/task.router.js';
 
-fastify.register(fastifySwagger, {
+const app = fastify();
+
+const dirnameCustom = dirname(fileURLToPath(import.meta.url));
+
+
+app.register(fastifySwagger, {
   exposeRoute: true,
   routePrefix: '/doc',
   mode: 'static',
   specification: {
-    path: path.join(__dirname, '../doc/api.yaml'),
+    path: join(dirnameCustom, '../doc/api.yaml'),
   },
 });
 
-fastify.register(userRouter, { prefix: '/users' });
-fastify.register(boardRouter, { prefix: '/boards' });
-fastify.register(taskRouter, { prefix: '/boards/:boardId/tasks' });
+app.register(userRouter, { prefix: '/users' });
+app.register(boardRouter, { prefix: '/boards' });
+app.register(taskRouter, { prefix: '/boards/:boardId/tasks' });
 
 
-module.exports = fastify;
+export default app;

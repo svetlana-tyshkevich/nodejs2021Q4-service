@@ -1,12 +1,12 @@
-const { PORT } = require('./common/config');
-const fastify = require('./app');
+import { PORT } from './common/config.js';
+import app from './app.js';
 
 const start = async () => {
   try {
-    await fastify.listen(PORT);
+    await app.listen(PORT);
     console.log(`Server is running on port ${PORT}`)
   } catch (err) {
-    fastify.log.error(err);
+    app.log.error(err);
     process.exit(1);
   }
 };

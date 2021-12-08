@@ -1,5 +1,5 @@
-const User = require('./user.model');
-const usersService = require('./user.service');
+import User from './user.model.js';
+import usersService from './user.service.js';
 
 const userRouter = (fastify, options, done) => {
   fastify.get('/', async (req, reply) => {
@@ -47,4 +47,4 @@ const userRouter = (fastify, options, done) => {
   done();
 };
 
-module.exports = userRouter;
+export default userRouter;

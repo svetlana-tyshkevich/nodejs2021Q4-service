@@ -1,4 +1,6 @@
-const boardDB = require('../../common/db.js').boards;
+import db from '../../common/db.js';
+
+const boardDB = db.boards;
 
 const getAll = async () => boardDB;
 
@@ -31,10 +33,4 @@ const deleteBoard = async (id) => {
   boardDB.splice(currentIndex, 1);
   return currentItem;
 };
-module.exports = {
-  getAll,
-  createBoard,
-  getBoardById,
-  deleteBoard,
-  updateBoard,
-};
+export default { getAll, createBoard, getBoardById, deleteBoard, updateBoard };

@@ -1,4 +1,6 @@
-const userDB = require('../../common/db.js').users;
+import db from '../../common/db.js';
+
+const userDB = db.users;
 
 const getAll = async () => userDB;
 
@@ -24,4 +26,4 @@ const deleteUser = async (id) => {
   const currentIndex = userDB.indexOf((item) => item.id === id);
   userDB.splice(currentIndex, 1);
 };
-module.exports = { getAll, createUser, updateUser, getUserById, deleteUser };
+export default { getAll, createUser, updateUser, getUserById, deleteUser };

@@ -1,5 +1,5 @@
-const Task = require('./task.model');
-const tasksService = require('./task.service');
+import Task from './task.model.js';
+import tasksService from './task.service.js';
 
 const taskRouter = (fastify, options, done) => {
   fastify.get('/', async (req, reply) => {
@@ -58,4 +58,4 @@ const taskRouter = (fastify, options, done) => {
   done();
 };
 
-module.exports = taskRouter;
+export default taskRouter;

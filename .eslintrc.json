@@ -13,11 +13,16 @@
     "ecmaFeatures": {
       "impliedStrict": true
     },
-    "project": "nodejs2021Q4-service/tsconfig.json"
+    "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
   "settings": {
     "noInlineConfig": true,
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    },
     "node": {
       "tryExtensions": [".js", ".json", ".node", ".ts", ".d.ts"]
     }

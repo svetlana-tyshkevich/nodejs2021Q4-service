@@ -4,4 +4,4 @@ const db = {
   tasks: [],
 };
 
-module.exports = db;
+export default db;
