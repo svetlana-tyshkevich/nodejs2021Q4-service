@@ -1,3 +1,4 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import Task from './task.model.js';
 import tasksService from './task.service.js';
 
@@ -6,9 +7,9 @@ const taskRouter = (fastify, options, done) => {
     const { boardId } = req.params;
     try {
       const tasks = await tasksService.getAll(boardId);
-      reply.code(200).send(tasks);
+      reply.code(StatusCodes.OK).send(tasks);
     } catch (error) {
-      reply.sendStatus(404).send('This board is not found');
+      reply.sendStatus(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -19,9 +20,9 @@ const taskRouter = (fastify, options, done) => {
 
       const task = new Task({ ...taskBody, boardId });
       await tasksService.createTask(task);
-      reply.status(201).send(task);
+      reply.status(StatusCodes.CREATED).send(task);
     } catch (e) {
-      reply.sendStatus(401);
+      reply.sendStatus(StatusCodes.UNAUTHORIZED);
     }
   });
 
@@ -29,9 +30,9 @@ const taskRouter = (fastify, options, done) => {
     const { boardId, id } = req.params;
     try {
       const task = await tasksService.getTaskByID(boardId, id);
-      reply.code(200).send(task);
+      reply.code(StatusCodes.OK).send(task);
     } catch (error) {
-      reply.code(404).send('Task is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -39,9 +40,9 @@ const taskRouter = (fastify, options, done) => {
     const { boardId, id } = req.params;
     try {
       const task = await tasksService.updateTask(boardId, id, req.body);
-      reply.code(200).send(task);
+      reply.code(StatusCodes.OK).send(task);
     } catch (error) {
-      reply.code(404).send('Task is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -49,9 +50,9 @@ const taskRouter = (fastify, options, done) => {
     const { boardId, id } = req.params;
     try {
       await tasksService.deleteTask(boardId, id);
-      reply.code(204);
+      reply.code(StatusCodes.NO_CONTENT);
     } catch (error) {
-      reply.code(404).send('Task is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 

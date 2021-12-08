@@ -1,26 +1,27 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import User from './user.model.js';
 import usersService from './user.service.js';
 
 const userRouter = (fastify, options, done) => {
   fastify.get('/', async (req, reply) => {
     const users = await usersService.getAll();
-    reply.code(200).send(users.map(User.toResponse));
+    reply.code(StatusCodes.OK).send(users.map(User.toResponse));
   });
 
   fastify.post('/', async (req, reply) => {
     const { name, login, password } = req.body;
     const user = new User({ name, login, password });
     await usersService.createUser(user);
-    reply.code(201).send(User.toResponse(user));
+    reply.code(StatusCodes.CREATED).send(User.toResponse(user));
   });
 
   fastify.get('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const user = await usersService.getUserById(id);
-      reply.code(200).send(User.toResponse(user));
+      reply.code(StatusCodes.OK).send(User.toResponse(user));
     } catch (error) {
-      reply.code(404).send('User is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -28,9 +29,9 @@ const userRouter = (fastify, options, done) => {
     const { id } = req.params;
     try {
       const user = await usersService.updateUser(id, req.body);
-      reply.code(200).send(User.toResponse(user));
+      reply.code(StatusCodes.OK).send(User.toResponse(user));
     } catch (error) {
-      reply.code(404).send('User is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -38,9 +39,9 @@ const userRouter = (fastify, options, done) => {
     const { id } = req.params;
     try {
       await usersService.deleteUser(id);
-      reply.code(204);
+      reply.code(StatusCodes.NO_CONTENT);
     } catch (error) {
-      reply.code(404).send('User is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 

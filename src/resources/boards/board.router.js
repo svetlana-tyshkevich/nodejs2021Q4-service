@@ -1,27 +1,27 @@
-
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import Board from './board.model.js';
 import boardsService from './board.service.js';
 
 const boardRouter = (fastify, options, done) => {
   fastify.get('/', async (req, reply) => {
     const boards = await boardsService.getAll();
-    reply.code(200).send(boards);
+    reply.code(StatusCodes.OK).send(boards);
   });
 
   fastify.post('/', async (req, reply) => {
     const { title, columns } = req.body;
     const board = new Board({ title, columns });
     await boardsService.createBoard(board);
-    reply.code(201).send(board);
+    reply.code(StatusCodes.CREATED).send(board);
   });
 
   fastify.get('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const board = await boardsService.getBoardById(id);
-      reply.code(200).send(board);
+      reply.code(StatusCodes.OK).send(board);
     } catch (error) {
-      reply.code(404).send('Board is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -29,9 +29,9 @@ const boardRouter = (fastify, options, done) => {
     const { id } = req.params;
     try {
       const board = await boardsService.updateBoard(id, req.body);
-      reply.code(200).send(board);
+      reply.code(StatusCodes.OK).send(board);
     } catch (error) {
-      reply.code(404).send('Board is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -39,9 +39,9 @@ const boardRouter = (fastify, options, done) => {
     const { id } = req.params;
     try {
       await boardsService.deleteBoard(id);
-      reply.code(204);
+      reply.code(StatusCodes.NO_CONTENT);
     } catch (error) {
-      reply.code(404).send('Board is not found');
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
@@ -49,4 +49,3 @@ const boardRouter = (fastify, options, done) => {
 };
 
 export default boardRouter;
-
