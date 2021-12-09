@@ -1,11 +1,18 @@
 import dotenv from 'dotenv';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path from 'path';
 
-const dirnameCustom = dirname(fileURLToPath(import.meta.url));
+declare let process: {
+  env: {
+    PORT: number;
+    NODE_ENV: string;
+    MONGO_CONNECTION_STRING: string;
+    JWT_SECRET_KEY: string;
+    AUTH_MODE: boolean;
+  };
+};
 
 dotenv.config({
-  path: path.join(dirnameCustom, '../../.env'),
+  path: path.join(__dirname, '../../.env'),
 });
 
 export const { PORT } = process.env;
