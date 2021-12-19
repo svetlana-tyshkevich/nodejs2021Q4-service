@@ -1,6 +1,10 @@
 import { PORT } from './common/config';
 import app from './app';
 
+/**
+ * Starts server
+ * @param PORT - port for app
+ */
 const start = async () => {
   try {
     await app.listen(PORT);
