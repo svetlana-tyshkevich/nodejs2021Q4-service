@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
-    "allowJs": true,
+    "allowJs": false,
     "outDir": "./build",
     "rootDir": "./src",
     "downlevelIteration": false,
@@ -28,5 +28,10 @@
   ],
   "include": [
     "./src/**/*"
-  ]
+  ], 
+  "typedocOptions": {
+  "entryPoints": ["src/server.ts"],
+  "out": "docs",
+  "readme": "none",
+}
 }
