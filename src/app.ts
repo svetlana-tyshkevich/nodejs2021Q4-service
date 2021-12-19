@@ -2,7 +2,7 @@ import fastify from 'fastify';
 // import fastifySwagger from 'fastify-swagger';
 // import { join } from 'path';
 import userRouter from './resources/users/user.router';
-import boardRouter from './resources/boards/board.router.js';
+import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router.js';
 
 const app = fastify();

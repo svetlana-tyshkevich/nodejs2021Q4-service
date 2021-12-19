@@ -1,21 +1,36 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import Board from './board.model.js';
-import boardsService from './board.service.js';
+import { FastifyPluginCallback } from 'fastify';
+import Board from './board.model';
+import boardsService from './board.service';
+import { IColumn } from '../../types/model-types';
 
-const boardRouter = (fastify, options, done) => {
-  fastify.get('/', async (req, reply) => {
+interface IBody {
+  Body: {
+    title: string;
+    columns?: IColumn[] | null | undefined;
+  };
+}
+
+interface IParams {
+  Params: {
+    id: string;
+  };
+}
+
+const boardRouter: FastifyPluginCallback = (fastify, _opts, done) => {
+  fastify.get('/', async (_req, reply) => {
     const boards = await boardsService.getAll();
     reply.code(StatusCodes.OK).send(boards);
   });
 
-  fastify.post('/', async (req, reply) => {
+  fastify.post<IBody>('/', async (req, reply) => {
     const { title, columns } = req.body;
     const board = new Board({ title, columns });
     await boardsService.createBoard(board);
     reply.code(StatusCodes.CREATED).send(board);
   });
 
-  fastify.get('/:id', async (req, reply) => {
+  fastify.get<IParams>('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const board = await boardsService.getBoardById(id);
@@ -25,7 +40,7 @@ const boardRouter = (fastify, options, done) => {
     }
   });
 
-  fastify.put('/:id', async (req, reply) => {
+  fastify.put<IBody & IParams>('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const board = await boardsService.updateBoard(id, req.body);
@@ -35,7 +50,7 @@ const boardRouter = (fastify, options, done) => {
     }
   });
 
-  fastify.delete('/:id', async (req, reply) => {
+  fastify.delete<IParams>('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       await boardsService.deleteBoard(id);

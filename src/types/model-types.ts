@@ -4,3 +4,14 @@ export interface IUser {
   login: string;
   password: string;
 }
+
+export interface IColumn {
+  id: string;
+  title: string;
+  order: number;
+}
+export interface IBoard {
+  id?: string;
+  title: string;
+  columns?: IColumn[] | null | undefined;
+}

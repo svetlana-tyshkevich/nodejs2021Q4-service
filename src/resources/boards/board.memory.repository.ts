@@ -1,32 +1,28 @@
 import db from '../../common/db.js';
+import { IBoard } from '../../types/model-types';
 
-const boardDB = db.boards;
+const boardDB: IBoard[] = db.boards;
 
-const getAll = async () => boardDB;
+const getAll = async (): Promise<IBoard[]> => boardDB;
 
-const createBoard = async (board) => {
+const createBoard = async (board: IBoard): Promise<IBoard> => {
   boardDB.push(board);
-  if (!board) throw new Error('error');
   return board;
 };
 
-const getBoardById = async (id) => {
+const getBoardById = async (id: string): Promise<IBoard> => {
   const board = boardDB.find((item) => item.id === id);
-  if (!board) throw new Error('error');
+  if (!board) throw new Error('Board not found');
   return board;
 };
 
-const updateBoard = async (id, boardBody) => {
+const updateBoard = async (id: string, boardBody: IBoard) => {
   const currentIndex = boardDB.findIndex((item) => item.id === id);
-
-  const { title, columns } = boardBody;
-  boardDB[currentIndex].title = title;
-  boardDB[currentIndex].columns = columns;
-
+  boardDB[currentIndex] = boardBody;
   return boardDB[currentIndex];
 };
 
-const deleteBoard = async (id) => {
+const deleteBoard = async (id: string): Promise<IBoard | undefined> => {
   const currentIndex = [...boardDB].findIndex((item) => item && item.id === id);
   if (currentIndex === -1) throw Error('error');
   const currentItem = boardDB[currentIndex];
