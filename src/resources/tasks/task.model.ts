@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { ITask } from '../../types/interface-types';
 
+/** Class representing a task. */
 class Task {
   id: string;
 
@@ -16,6 +17,16 @@ class Task {
 
   columnId: string | null;
 
+  /**
+   * Creates a task.
+   * 
+   * @param title - task's title
+   * @param order - task's order
+   * @param description - task's description
+   * @param userId - user to which the task is assigned
+   * @param boardId - board to which the task is assigned
+   * @param columnId - column to which the task is assigned
+   */
   constructor(
     {
       id = uuid(),
