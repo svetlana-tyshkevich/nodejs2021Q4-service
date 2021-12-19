@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { IBoard, IColumn } from '../../types/model-types';
+import { IBoard, IColumn } from '../../types/interface-types';
 
 class Board {
   id?: string;

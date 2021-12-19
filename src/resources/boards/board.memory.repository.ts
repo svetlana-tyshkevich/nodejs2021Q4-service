@@ -1,5 +1,5 @@
-import db from '../../common/db.js';
-import { IBoard } from '../../types/model-types';
+import db from '../../common/db';
+import { IBoard } from '../../types/interface-types';
 
 const boardDB: IBoard[] = db.boards;
 

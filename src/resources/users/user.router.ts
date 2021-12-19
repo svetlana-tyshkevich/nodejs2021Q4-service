@@ -2,7 +2,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FastifyPluginCallback } from 'fastify';
 import User from './user.model';
 import usersService from './user.service';
-import { IUser } from '../../types/model-types';
+import { IUser } from '../../types/interface-types';
 
 interface IBody {
   Body: {

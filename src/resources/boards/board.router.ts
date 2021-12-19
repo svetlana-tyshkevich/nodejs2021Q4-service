@@ -2,7 +2,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FastifyPluginCallback } from 'fastify';
 import Board from './board.model';
 import boardsService from './board.service';
-import { IColumn } from '../../types/model-types';
+import { IColumn } from '../../types/interface-types';
 
 interface IBody {
   Body: {

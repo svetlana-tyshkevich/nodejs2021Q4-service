@@ -1,6 +1,6 @@
 import boardsRepo from './board.memory.repository';
-import tasksRepo from '../tasks/task.service.js';
-import { IBoard } from '../../types/model-types';
+import tasksRepo from '../tasks/task.service';
+import { IBoard } from '../../types/interface-types';
 
 const getAll = (): Promise<IBoard[]> => boardsRepo.getAll();
 

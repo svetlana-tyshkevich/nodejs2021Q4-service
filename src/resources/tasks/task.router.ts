@@ -1,19 +1,39 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import Task from './task.model.js';
-import tasksService from './task.service.js';
+import { FastifyPluginCallback } from 'fastify';
+import Task from './task.model';
+import tasksService from './task.service';
 
-const taskRouter = (fastify, options, done) => {
-  fastify.get('/', async (req, reply) => {
+interface IBody {
+  Body: {
+    id: string;
+    title: string;
+    order: number;
+    description: string;
+    userId: string | null;
+    boardId: string | null;
+    columnId: string | null;
+  };
+}
+
+interface IParams {
+  Params: {
+    id: string,
+    boardId: string;
+  };
+}
+
+const taskRouter: FastifyPluginCallback = (fastify, _options, done) => {
+  fastify.get<IParams>('/', async (req, reply) => {
     const { boardId } = req.params;
     try {
       const tasks = await tasksService.getAll(boardId);
       reply.code(StatusCodes.OK).send(tasks);
     } catch (error) {
-      reply.sendStatus(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
     }
   });
 
-  fastify.post('/', async (req, reply) => {
+  fastify.post<IBody & IParams>('/', async (req, reply) => {
     try {
       const { boardId } = req.params;
       const taskBody = req.body;
@@ -22,11 +42,11 @@ const taskRouter = (fastify, options, done) => {
       await tasksService.createTask(task);
       reply.status(StatusCodes.CREATED).send(task);
     } catch (e) {
-      reply.sendStatus(StatusCodes.UNAUTHORIZED);
+      reply.code(StatusCodes.UNAUTHORIZED);
     }
   });
 
-  fastify.get('/:id', async (req, reply) => {
+  fastify.get<IBody & IParams>('/:id', async (req, reply) => {
     const { boardId, id } = req.params;
     try {
       const task = await tasksService.getTaskByID(boardId, id);
@@ -36,7 +56,7 @@ const taskRouter = (fastify, options, done) => {
     }
   });
 
-  fastify.put('/:id', async (req, reply) => {
+  fastify.put<IBody & IParams>('/:id', async (req, reply) => {
     const { boardId, id } = req.params;
     try {
       const task = await tasksService.updateTask(boardId, id, req.body);
@@ -46,7 +66,7 @@ const taskRouter = (fastify, options, done) => {
     }
   });
 
-  fastify.delete('/:id', async (req, reply) => {
+  fastify.delete<IParams>('/:id', async (req, reply) => {
     const { boardId, id } = req.params;
     try {
       await tasksService.deleteTask(boardId, id);

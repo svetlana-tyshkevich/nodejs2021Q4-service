@@ -1,19 +1,20 @@
-import db  from '../../common/db.js';
+import db  from '../../common/db';
+import { ITask } from '../../types/interface-types';
 
-let taskDB = db.tasks;
+let taskDB: ITask[] = db.tasks;
 
-const getAll = async (boardId) => {
+const getAll = async (boardId: string): Promise<ITask[]> => {
   const tasks = taskDB.filter((task) => task.boardId === boardId);
   return tasks;
 };
 
-const createTask = async (task) => {
+const createTask = async (task: ITask): Promise<ITask> => {
   taskDB.push(task);
 
   return task;
 };
 
-const getTaskByID = async (boardId, taskId) => {
+const getTaskByID = async (boardId: string, taskId: string): Promise<ITask> => {
   const task = taskDB.find(
     (item) => item.boardId === boardId && item.id === taskId
   );
@@ -21,13 +22,20 @@ const getTaskByID = async (boardId, taskId) => {
   return task;
 };
 
-const updateTask = async (boardId, id, taskBody) => {
+const updateTask = async (
+  _boardId: string,
+  id: string,
+  taskBody: ITask
+): Promise<ITask | undefined> => {
   const currentIndex = taskDB.findIndex((item) => item.id === id);
   taskDB[currentIndex] = { ...taskBody };
   return taskDB[currentIndex];
 };
 
-const deleteTask = async (boardId, taskId) => {
+const deleteTask = async (
+  _boardId: string,
+  taskId: string
+): Promise<ITask | undefined> => {
   const currentIndex = [...taskDB].findIndex(
     (item) => item && item.id === taskId
   );
@@ -37,11 +45,11 @@ const deleteTask = async (boardId, taskId) => {
   return currentItem;
 };
 
-const deleteBoardTasks = async (boardId) => {
-  taskDB =  taskDB.filter((item) => item.boardId !== boardId)
+const deleteBoardTasks = async (boardId: string): Promise<void> => {
+  taskDB = taskDB.filter((item) => item.boardId !== boardId);
 };
 
-const deleteUserTasks = async (userId) => {
+const deleteUserTasks = async (userId: string): Promise<void> => {
   taskDB
     .filter((item) => item.userId === userId)
     .forEach((item) => {

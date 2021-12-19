@@ -1,6 +1,6 @@
 import usersRepo from './user.memory.repository';
-import  tasksRepo from '../tasks/task.service.js';
-import { IUser } from '../../types/model-types';
+import  tasksRepo from '../tasks/task.service';
+import { IUser } from '../../types/interface-types';
 
 const getAll = (): Promise<IUser[]> => usersRepo.getAll();
 

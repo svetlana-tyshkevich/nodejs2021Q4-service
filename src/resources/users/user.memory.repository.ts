@@ -1,5 +1,5 @@
-import db from '../../common/db.js';
-import { IUser } from '../../types/model-types';
+import db from '../../common/db';
+import { IUser } from '../../types/interface-types';
 
 const userDB: IUser[] = db.users;
 

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IUser } from '../../types/model-types';
+import { IUser } from '../../types/interface-types';
 
 class User implements IUser {
   id?: string;
