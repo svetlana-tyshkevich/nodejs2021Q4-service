@@ -67,7 +67,6 @@ const userRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       logger.warn(`User id: ${id} not found`);
     }
   });
-
   done();
 };
 
