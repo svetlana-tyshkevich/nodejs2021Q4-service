@@ -38,6 +38,7 @@ const logger = pino({
         target: 'pino-pretty',
         options: {
           translateTime: 'SYS:dd-mm-yyyy HH:MM:ss',
+          colorize: false,
           ignore: 'pid,hostname,reqId,responseTime',
           destination: path.join(__dirname, '../logging/common.log'),
         },
@@ -46,6 +47,7 @@ const logger = pino({
       {
         target: 'pino-pretty',
         options: {
+          colorize: false,
           translateTime: 'SYS:dd-mm-yyyy HH:MM:ss',
           ignore: 'pid,hostname,reqId,responseTime',
           destination: path.join(__dirname, '../logging/errors.log'),
