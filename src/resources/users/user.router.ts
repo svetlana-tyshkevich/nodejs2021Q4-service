@@ -3,6 +3,7 @@ import { FastifyPluginCallback } from 'fastify';
 import User from './user.model';
 import usersService from './user.service';
 import { IUser } from '../../types/interface-types';
+import logger from '../../middlewares/logger';
 
 interface IBody {
   Body: {
@@ -38,10 +39,11 @@ const userRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       reply.code(StatusCodes.OK).send(User.toResponse(user));
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`User id: ${id} not found`);
     }
   });
 
-  fastify.put<IBody&IParams>('/:id', async (req, reply) => {
+  fastify.put<IBody & IParams>('/:id', async (req, reply) => {
     const { id } = req.params;
     try {
       const user: IUser | undefined = await usersService.updateUser(
@@ -51,6 +53,7 @@ const userRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       if (user) reply.code(StatusCodes.OK).send(User.toResponse(user));
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`User id: ${id} not found`);
     }
   });
 
@@ -61,6 +64,7 @@ const userRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       reply.code(StatusCodes.NO_CONTENT);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`User id: ${id} not found`);
     }
   });
 

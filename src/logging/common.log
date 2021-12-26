@@ -1,0 +1,14 @@
+[26-12-2021 21:06:10] [32mINFO[39m: [36mincoming request[39m
+    req: {
+      "method": "GET",
+      "url": "/users/0a329eb3-2001-4c83-9e76-a2a6575d8193",
+      "body": {
+        "id": "0a329eb3-2001-4c83-9e76-a2a6575d8193"
+      },
+      "queryParams": {}
+    }
+[26-12-2021 21:06:10] [33mWARN[39m: [36mUser id: 0a329eb3-2001-4c83-9e76-a2a6575d8193 not found[39m
+[26-12-2021 21:06:10] [32mINFO[39m: [36mrequest completed[39m
+    res: {
+      "statusCode": 404
+    }

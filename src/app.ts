@@ -8,13 +8,6 @@ import logger from './middlewares/logger';
 
 const app = fastify({
     logger
-//   logger: {
-//     prettyPrint: {
-//       translateTime: 'SYS:dd-mm-yyyy HH:MM:ss',
-//       ignore: 'pid,hostname,reqId,responseTime,req,res',
-//       messageFormat: '{msg} {req.method} {req.url} {res.statusCode} {req.body}',
-//     },
-//   },
 });
 
 app.register(userRouter, { prefix: '/users' });

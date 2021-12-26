@@ -2,6 +2,7 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FastifyPluginCallback } from 'fastify';
 import Task from './task.model';
 import tasksService from './task.service';
+import logger from '../../middlewares/logger';
 
 interface IBody {
   Body: {
@@ -30,6 +31,7 @@ const taskRouter: FastifyPluginCallback = (fastify, _options, done) => {
       reply.code(StatusCodes.OK).send(tasks);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Board id: ${boardId} not found`);
     }
   });
 
@@ -43,6 +45,7 @@ const taskRouter: FastifyPluginCallback = (fastify, _options, done) => {
       reply.status(StatusCodes.CREATED).send(task);
     } catch (e) {
       reply.code(StatusCodes.UNAUTHORIZED);
+      logger.warn(`Board not found`);
     }
   });
 
@@ -53,6 +56,7 @@ const taskRouter: FastifyPluginCallback = (fastify, _options, done) => {
       reply.code(StatusCodes.OK).send(task);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Task id: ${id} not found`);
     }
   });
 
@@ -63,6 +67,7 @@ const taskRouter: FastifyPluginCallback = (fastify, _options, done) => {
       reply.code(StatusCodes.OK).send(task);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Task id: ${id} not found`);
     }
   });
 
@@ -73,6 +78,7 @@ const taskRouter: FastifyPluginCallback = (fastify, _options, done) => {
       reply.code(StatusCodes.NO_CONTENT);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Task id: ${id} not found`);
     }
   });
 
