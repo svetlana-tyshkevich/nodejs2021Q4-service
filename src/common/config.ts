@@ -8,6 +8,7 @@ declare let process: {
     MONGO_CONNECTION_STRING: string;
     JWT_SECRET_KEY: string;
     AUTH_MODE: boolean;
+    LOG_LEVEL: string;
   };
 };
 
@@ -20,3 +21,6 @@ export const { NODE_ENV } = process.env;
 export const { MONGO_CONNECTION_STRING } = process.env;
 export const { JWT_SECRET_KEY } = process.env;
 export const { AUTH_MODE } = process.env;
+export const { LOG_LEVEL  } = process.env;
+
+

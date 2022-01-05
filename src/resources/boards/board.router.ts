@@ -3,6 +3,7 @@ import { FastifyPluginCallback } from 'fastify';
 import Board from './board.model';
 import boardsService from './board.service';
 import { IColumn } from '../../types/interface-types';
+import logger from '../../middlewares/logger';
 
 interface IBody {
   Body: {
@@ -37,6 +38,7 @@ const boardRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       reply.code(StatusCodes.OK).send(board);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Board id: ${id} not found`);
     }
   });
 
@@ -47,6 +49,7 @@ const boardRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       reply.code(StatusCodes.OK).send(board);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Board id: ${id} not found`);
     }
   });
 
@@ -57,6 +60,7 @@ const boardRouter: FastifyPluginCallback = (fastify, _opts, done) => {
       reply.code(StatusCodes.NO_CONTENT);
     } catch (error) {
       reply.code(StatusCodes.NOT_FOUND).send(ReasonPhrases.NOT_FOUND);
+      logger.warn(`Board id: ${id} not found`);
     }
   });
 
