@@ -3,8 +3,10 @@ version: "3.0"
 services:
   node: 
     build: .
-    command: npm run start
-    restart: unless-stopped
+    networks:
+      - custom-network
+    # command: npm run start
+    restart: always
     ports:
       - ${PORT}:${PORT}
     depends_on:
@@ -13,10 +15,15 @@ services:
     #   - PORT=8080
   postgres:
     build: ./database
+    networks:
+      - custom-network
     ports:
         - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment: 
         POSTGRES_USER: ${POSTGRES_USER}
         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-        POSTGRES_DB: ${POSTGRES_DB}    
+        POSTGRES_DB: ${POSTGRES_DB}
     
+networks:
+  custom-network:
+    driver: bridge
