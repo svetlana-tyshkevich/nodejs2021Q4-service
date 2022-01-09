@@ -5,17 +5,14 @@ services:
     build: .
     networks:
       - custom-network
-    # command: npm run start
     restart: always
     ports:
       - ${PORT}:${PORT}
     depends_on:
       - postgres
-    # environment: 
-    #   - PORT=8080
     volumes: 
       - './src:/usr/app/src'
-      - './src/logging:/usr/app/logs'
+      - 'logs:/usr/app/logs'
   postgres:
     build: ./database
     networks:
@@ -26,8 +23,8 @@ services:
         POSTGRES_USER: ${POSTGRES_USER}
         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         POSTGRES_DB: ${POSTGRES_DB}
-        # volumes:
-        #   - 'postgres-db:/var/lib/postgresql/data'
+    volumes:
+      - 'postgres-db:/var/lib/postgresql/data'
     
 networks:
   custom-network:
