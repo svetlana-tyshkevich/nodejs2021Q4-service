@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3"
 
 services:
   node: 
@@ -13,6 +13,9 @@ services:
       - postgres
     # environment: 
     #   - PORT=8080
+    volumes: 
+      - './src:/usr/app/src'
+      - './src/logging:/usr/app/logs'
   postgres:
     build: ./database
     networks:
@@ -23,7 +26,13 @@ services:
         POSTGRES_USER: ${POSTGRES_USER}
         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         POSTGRES_DB: ${POSTGRES_DB}
+        # volumes:
+        #   - 'postgres-db:/var/lib/postgresql/data'
     
 networks:
   custom-network:
     driver: bridge
+
+volumes:
+  postgres-db:
+  logs:
