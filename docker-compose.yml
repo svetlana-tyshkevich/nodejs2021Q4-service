@@ -4,9 +4,13 @@ services:
   node: 
     build: .
     command: npm run start
+    restart: unless-stopped
     ports:
       - ${PORT}:${PORT}
-    # depends_on:
-    #   - postgres
+    depends_on:
+      - postgres
     # environment: 
     #   - PORT=8080
+  postgres:
+    build: ./database
+    
