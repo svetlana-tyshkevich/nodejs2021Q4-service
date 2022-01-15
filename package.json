@@ -14,8 +14,10 @@
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "docker:up": "docker-compose up --build",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "migrate": "typeorm migrations:generate -n"
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js --config src/common/ormconfig.ts",
+    "migration:generate": "npm run typeorm migrations:generate -- -n MigrationFile",
+    "migration:create": "npm run typeorm migration:create -- -n DBMigration",
+    "migration:run": "npm run typeorm -- migration:run"
   },
   "keywords": [
     "rs",
