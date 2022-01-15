@@ -1,6 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FastifyPluginCallback } from 'fastify';
-import User from './user.model';
+import User from '../../entity/user.model';
 import usersService from './user.service';
 import { IUser } from '../../types/interface-types';
 import logger from '../../middlewares/logger';
