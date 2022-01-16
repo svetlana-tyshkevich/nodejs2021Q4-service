@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { ITask } from '../types/interface-types';
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import User from './user.model';
+import Board from './board.model';
+import Col from './column.model';
 
 /** Class representing a task. */
 @Entity({ name: 'tasks' })
@@ -17,13 +20,13 @@ class Task {
   @Column()
   description: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
   userId: string | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @ManyToOne(() => Board, { onDelete: 'CASCADE' })
   boardId: string | null;
 
-  @Column({ type: 'varchar', nullable: true })
+  @ManyToOne(() => Col, { onDelete: 'SET NULL' })
   columnId: string | null;
 
   /**
