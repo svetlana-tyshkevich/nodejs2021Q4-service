@@ -1,6 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FastifyPluginCallback } from 'fastify';
-import Task from './task.model';
+import Task from '../../entity/task.model';
 import tasksService from './task.service';
 import logger from '../../middlewares/logger';
 

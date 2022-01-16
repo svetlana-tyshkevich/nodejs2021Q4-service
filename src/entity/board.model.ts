@@ -6,6 +6,7 @@ import Col from './column.model';
 /** Class representing a board. */
 @Entity({ name: 'boards' })
 class Board {
+  
   @PrimaryColumn('uuid')
   id?: string;
 
