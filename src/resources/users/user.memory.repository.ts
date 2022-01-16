@@ -1,5 +1,5 @@
 import { IUser } from '../../types/interface-types';
-import { getRepository, getConnection } from 'typeorm';
+import { getRepository } from 'typeorm';
 import User from '../../entity/user.model';
 
 /**
@@ -46,19 +46,9 @@ const updateUser = async (
   userInfo: IUser
 ): Promise<IUser | undefined> => {
   const userRepository = getRepository(User);
-  const {name, login, password} = userInfo;
-  await getConnection()
-    .createQueryBuilder()
-    .update(User)
-    .set({
-      name,
-      login,
-      password,
-    })
-    .where('id = :id', { id })
-    .execute();
-    const user = await userRepository.findOne(id);
-    return user;
+   await userRepository.update(id, userInfo);
+   const updatedUser = await userRepository.findOne(id);
+   return updatedUser;
 };
 
 /**

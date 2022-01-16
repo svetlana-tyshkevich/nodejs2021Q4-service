@@ -9,6 +9,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon -L --exitcrash src/server.ts",
+    "start:migration": "npm run migration:generate && npm run migration:run && nodemon -L --exitcrash src/server.ts",
     "build": "tsc",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
