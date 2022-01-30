@@ -1,6 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { FastifyPluginCallback } from 'fastify';
-import Board from './board.model';
+import Board from '../../entity/board.model';
 import boardsService from './board.service';
 import { IColumn } from '../../types/interface-types';
 import logger from '../../middlewares/logger';

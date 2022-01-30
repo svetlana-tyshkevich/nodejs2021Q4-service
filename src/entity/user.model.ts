@@ -1,15 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IUser } from '../../types/interface-types';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IUser } from '../types/interface-types';
 
 /** Class representing an user . */
+@Entity({ name: 'users' })
 class User implements IUser {
+  @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  name: string;
+  @Column()
+  name!: string;
 
-  login: string;
+  @Column()
+  login!: string;
 
-  password: string;
+  @Column()
+  password!: string;
 
   /**
    * Creates an user.

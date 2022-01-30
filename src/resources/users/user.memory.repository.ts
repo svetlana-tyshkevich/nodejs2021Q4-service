@@ -1,13 +1,15 @@
-import db from '../../common/db';
 import { IUser } from '../../types/interface-types';
-
-const userDB: IUser[] = db.users;
+import { getRepository } from 'typeorm';
+import User from '../../entity/user.model';
 
 /**
  * Gets all users.
  * @returns list of all users
  */
-const getAll = async (): Promise<IUser[]> => userDB;
+const getAll = async (): Promise<IUser[]> => {
+  const userRepository = getRepository(User);
+  return userRepository.find();
+};
 
 /**
  * Saves new user to users' list.
@@ -15,8 +17,10 @@ const getAll = async (): Promise<IUser[]> => userDB;
  * @returns new user
  */
 const createUser = async (user: IUser): Promise<IUser> => {
-  userDB.push(user);
-  return user;
+  const userRepository = getRepository(User);
+  const newUser = userRepository.create(user);
+  const savedUser = userRepository.save(newUser);
+  return savedUser;
 };
 
 /**
@@ -25,7 +29,8 @@ const createUser = async (user: IUser): Promise<IUser> => {
  * @returns found user
  */
 const getUserById = async (id: string): Promise<IUser> => {
-  const user = userDB.find((item) => item.id === id);
+  const userRepository = getRepository(User);
+  const user = await userRepository.findOne(id);
   if (!user) throw Error('User not found');
   return user;
 };
@@ -40,9 +45,10 @@ const updateUser = async (
   id: string,
   userInfo: IUser
 ): Promise<IUser | undefined> => {
-  const currentIndex = userDB.findIndex((item) => item.id === id);
-  userDB[currentIndex] = userInfo;
-  return userDB[currentIndex];
+  const userRepository = getRepository(User);
+   await userRepository.update(id, userInfo);
+   const updatedUser = await userRepository.findOne(id);
+   return updatedUser;
 };
 
 /**
@@ -51,7 +57,7 @@ const updateUser = async (
  * @returns deleted user
  */
 const deleteUser = async (id: string): Promise<void> => {
-  const currentIndex = userDB.findIndex((item: IUser) => item.id === id);
-  userDB.splice(currentIndex, 1);
+  const userRepository = getRepository(User);
+  await userRepository.delete(id);
 };
 export default { getAll, createUser, updateUser, getUserById, deleteUser };

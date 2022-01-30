@@ -1,14 +1,16 @@
-import db from '../../common/db';
+import { getRepository } from 'typeorm';
 import { IBoard } from '../../types/interface-types';
-
-
-const boardDB: IBoard[] = db.boards;
+import Board from '../../entity/board.model';
 
 /**
  * Return all boards from database
- * @returns array of all boards 
+ * @returns array of all boards
  */
-const getAll = async (): Promise<IBoard[]> => boardDB;
+const getAll = async (): Promise<IBoard[]> => {
+  const boardRepository =  getRepository(Board);
+  const boards = await boardRepository.find();
+  return boards;
+};
 
 /**
  * Saves new board to boards' list.
@@ -16,8 +18,10 @@ const getAll = async (): Promise<IBoard[]> => boardDB;
  * @returns new board
  */
 const createBoard = async (board: IBoard): Promise<IBoard> => {
-  boardDB.push(board);
-  return board;
+  const boardRepository = getRepository(Board);
+  const newBoard = await boardRepository.create(board);
+  const savedBoard = await boardRepository.save(newBoard);
+  return savedBoard;
 };
 
 /**
@@ -26,8 +30,9 @@ const createBoard = async (board: IBoard): Promise<IBoard> => {
  * @returns found board
  */
 const getBoardById = async (id: string): Promise<IBoard> => {
-  const board = boardDB.find((item) => item.id === id);
-  if (!board) throw new Error('Board not found');
+  const boardRepository = getRepository(Board);
+  const board = await boardRepository.findOne(id);
+  if (!board) throw Error('Board not found');
   return board;
 };
 
@@ -38,9 +43,12 @@ const getBoardById = async (id: string): Promise<IBoard> => {
  * @returns updated board
  */
 const updateBoard = async (id: string, boardBody: IBoard) => {
-  const currentIndex = boardDB.findIndex((item) => item.id === id);
-  boardDB[currentIndex] = boardBody;
-  return boardDB[currentIndex];
+  const boardRepository = getRepository(Board);
+  await boardRepository.update(id, boardBody);
+  console.log(boardBody);
+  const updatedBoard = await boardRepository.findOne(id);
+  console.log(updatedBoard);
+  return updatedBoard;
 };
 
 /**
@@ -48,11 +56,8 @@ const updateBoard = async (id: string, boardBody: IBoard) => {
  * @param id - board's ID
  * @returns deleted board
  */
-const deleteBoard = async (id: string): Promise<IBoard | undefined> => {
-  const currentIndex = [...boardDB].findIndex((item) => item && item.id === id);
-  if (currentIndex === -1) throw Error('error');
-  const currentItem = boardDB[currentIndex];
-  boardDB.splice(currentIndex, 1);
-  return currentItem;
+const deleteBoard = async (id: string): Promise<void> => {
+  const boardRepository = getRepository(Board);
+  await boardRepository.delete(id);
 };
 export default { getAll, createBoard, getBoardById, deleteBoard, updateBoard };

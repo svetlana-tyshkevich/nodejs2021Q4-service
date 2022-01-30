@@ -1,25 +1,37 @@
 import { v4 as uuid } from 'uuid';
-import { ITask } from '../../types/interface-types';
+import { ITask } from '../types/interface-types';
+import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import User from './user.model';
+import Board from './board.model';
+import Col from './column.model';
 
 /** Class representing a task. */
+@Entity({ name: 'tasks' })
 class Task {
+  @PrimaryColumn('uuid')
   id: string;
 
+  @Column()
   title: string;
 
+  @Column()
   order: number;
 
+  @Column()
   description: string;
 
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
   userId: string | null;
 
+  @ManyToOne(() => Board, { onDelete: 'CASCADE' })
   boardId: string | null;
 
+  @ManyToOne(() => Col, { onDelete: 'SET NULL' })
   columnId: string | null;
 
   /**
    * Creates a task.
-   * 
+   *
    * @param title - task's title
    * @param order - task's order
    * @param description - task's description
@@ -33,7 +45,7 @@ class Task {
       title = 'Autotest task',
       order = 0,
       description = 'Lorem ipsum',
-      userId = null,
+      userId = '',
       boardId = null,
       columnId = null,
     } = {} as ITask

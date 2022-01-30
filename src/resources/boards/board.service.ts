@@ -40,7 +40,7 @@ const updateBoard = (id: string, board: IBoard): Promise<IBoard | undefined> =>
  * @param id - board's ID
  * @returns deleted board
  */
-const deleteBoard = (id: string): Promise<IBoard | undefined> => {
+const deleteBoard = (id: string): Promise<void> => {
   tasksRepo.deleteBoardTasks(id);
   return boardsRepo.deleteBoard(id);
 };
